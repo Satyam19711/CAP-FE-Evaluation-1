@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Masai Doctor Records</title>
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- Use this form for data input  -->
+    <form>
+      <input placeholder="Name" type="text" id="name" />
+      <input placeholder="Doctor ID" type="text" id="doctor_id" />
+      <select id="specialization">
+        <option value="">Select Specialization</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Gynecologist">Gynecologist</option>
+      </select>
+      <input placeholder="Experience" type="number" id="experience" />
+      <input placeholder="Email" type="email" id="email" />
+      <input placeholder="Mobile No." type="number" id="mobile" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <!-- Use this Select tag for filter part  -->
+    <select id="filter">
+      <option value="">Select Specialization</option>
+      <option value="Dermatologist">Dermatologist</option>
+      <option value="Dentist">Dentist</option>
+      <option value="Gynecologist">Gynecologist</option>
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Doctor ID</th>
+          <th>Specialization</th>
+          <th>Experience in Years</th>
+          <th>Email</th>
+          <th>Mobile No</th>
+          <th>Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Append Rows here using JS & DOM  -->
+      </tbody>
+    </table>
+  </body>
+  
+  <script>
+    
+    function createRow(name, doctorId, specialization, experience, email, mobile, role) {
+     let tbody = document.querySelector('tbody');
+     let newRow = document.createElement('tr');
+      
+   
+     let dataItems = [name, doctorId, specialization, experience, email, mobile, role];
+      dataItems.forEach(item => {
+       let td = document.createElement('td');
+        td.textContent = item;
+        newRow.appendChild(td);
+      });
+  
+     let deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.addEventListener('click', function() {
+        tbody.removeChild(newRow); 
+      });
+  
+     let deleteCell = document.createElement('td');
+      deleteCell.appendChild(deleteBtn);
+      newRow.appendChild(deleteCell);
+  
+      tbody.appendChild(newRow);
+    }
+  
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+  
+     
+     let name = document.getElementById('name').value;
+     let doctorId = document.getElementById('doctor_id').value;
+     let specialization = document.getElementById('specialization').value;
+     let experience = parseInt(document.getElementById('experience').value);
+     let email = document.getElementById('email').value;
+     let mobile = document.getElementById('mobile').value;
+  
+    
+      let role = '';
+      if (experience > 5) {
+        role = 'Senior';
+      } else if (experience >= 2 && experience <= 5) {
+        role = 'Junior';
+      } else {
+        role = 'Trainee';
+      }
+  
+     
+      createRow(name, doctorId, specialization, experience, email, mobile, role);
+  
+      
+      this.reset();
+    });
+  
+   
+    document.getElementById('filter').addEventListener('change', function() {
+     let selectedSpecialization = this.value;
+     let rows = document.querySelectorAll('tbody tr');
+  
+    
+      rows.forEach(row => {
+       let specializationCell = row.querySelector('td:nth-child(3)');
+        if (selectedSpecialization === '' || specializationCell.textContent === selectedSpecialization) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  </script>
+  
+</html>
